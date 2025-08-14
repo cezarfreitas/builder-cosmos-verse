@@ -25,9 +25,8 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci --only=production && npm cache clean --force
 
-# Copy built application and start script
+# Copy built application
 COPY --from=builder /app/build ./build
-COPY start.js ./
 
 # Create non-root user
 RUN addgroup -g 1001 -S nodejs
@@ -45,5 +44,5 @@ ENV NODE_ENV=production
 ENV PORT=80
 ENV HOST=0.0.0.0
 
-# Start the application
-CMD ["node", "start.js"]
+# Start the application using SvelteKit's built-in server
+CMD ["node", "build/index.js"]
