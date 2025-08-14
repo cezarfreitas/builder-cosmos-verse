@@ -21,14 +21,13 @@ FROM node:18-alpine AS runner
 
 WORKDIR /app
 
-# Copy package files
+# Copy package files and install production dependencies
 COPY package*.json ./
-
-# Install only production dependencies
 RUN npm ci --only=production && npm cache clean --force
 
-# Copy built application from builder stage
+# Copy built application and start script
 COPY --from=builder /app/build ./build
+COPY start.js ./
 
 # Create non-root user
 RUN addgroup -g 1001 -S nodejs
@@ -47,4 +46,4 @@ ENV PORT=80
 ENV HOST=0.0.0.0
 
 # Start the application
-CMD ["node", "build/index.js"]
+CMD ["node", "start.js"]
