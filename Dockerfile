@@ -40,11 +40,11 @@ RUN chown -R svelte:nodejs /app
 USER svelte
 
 # Expose port
-EXPOSE 3000
+EXPOSE 80
 
 # Set environment variables
 ENV NODE_ENV=production
-ENV PORT=3000
+ENV PORT=80
 
 # Start the application
 CMD ["node", "build"]
